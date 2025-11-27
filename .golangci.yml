@@ -1,0 +1,152 @@
+version: "2"
+run:
+  relative-path-mode: gomod
+
+linters:
+  default: all
+  disable:
+    - wsl
+    - depguard
+    - lll
+    - forbidigo
+    - ireturn
+    - noinlineerr
+    - exhaustruct
+    - nonamedreturns
+  settings:
+    wsl_v5:
+      allow-first-in-block: true
+      allow-whole-block: false
+      branch-max-lines: 2
+    interfacebloat:
+      max: 15
+    funlen:
+      lines: 90
+      statements: 60
+      ignore-comments: true
+    gocognit:
+      min-complexity: 40
+    gocyclo:
+      min-complexity: 30
+    spancheck:
+      checks:
+        - end
+        - record-error
+        - set-status
+    revive:
+      enable-all-rules: true
+      rules:
+        - name: var-naming
+          severity: error
+          disabled: false
+          exclude: []
+          arguments:
+            - [] # AllowList
+            - [] # DenyList
+        - name: line-length-limit
+          severity: error
+          disabled: false
+          exclude: []
+          arguments: [120]
+        - name: max-public-structs
+          arguments: [7]
+        - name: unhandled-error
+          severity: error
+          disabled: false
+          exclude: []
+          arguments:
+            - '^strings\.Builder\.(Write|WriteByte|WriteRune|WriteString)$'
+            - '^fmt\.(Println|Printf|Sprintf|Fprint|Fprintf|Fprintln|Scanf|Print|Printf|Println)$'
+            - '^io\.PipeWriter\.CloseWithError$'
+        - name: add-constant
+          severity: error
+          disabled: false
+          exclude: []
+          arguments:
+            - max-lit-count: "3"
+              allow-strs: '""'
+              allow-ints: "0,1,-1"
+        - name: function-length
+          disabled: true
+        - name: cyclomatic
+          disabled: true
+        - name: cognitive-complexity
+          disabled: true
+    nlreturn:
+      block-size: 2
+    varnamelen:
+      max-distance: 0
+      min-name-length: 3
+      check-receiver: false
+      check-return: true
+      check-type-param: true
+      ignore-names:
+        - err
+        - to
+        - id
+      ignore-type-assert-ok: true
+      ignore-map-index-ok: true
+      ignore-chan-recv-ok: true
+      ignore-decls:
+        - t testing.T
+        - i int
+        - j int
+        - q string
+        - T any
+        - wg sync.WaitGroup
+        - re *regexp.Regexp
+    wrapcheck:
+      ignore-sigs:
+        - .Errorf(
+        - errors.New(
+        - errors.Unwrap(
+        - errors.Join(
+        - .Wrap(+
+        - .Wrapf(
+        - .WithMessage(
+        - .WithMessagef(
+        - .WithStack(
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - vendor/.*
+      - .*_generated.go
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofumpt
+    - gofmt
+    - gci
+    - golines
+  settings:
+    gofumpt:
+      extra-rules: true
+      module-path: tn-mcp-go
+    gofmt:
+      simplify: false
+      rewrite-rules:
+        - pattern: "interface{}"
+          replacement: "any"
+        - pattern: "a[b:len(a)]"
+          replacement: "a[b:]"
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(tn-mcp-go)
+      custom-order: true
+  exclusions:
+    generated: lax
+    paths:
+      - vendor/.*
+      - .*_generated.go
+      - third_party$
+      - builtin$
+      - examples$

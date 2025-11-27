@@ -1,0 +1,46 @@
+### Go ###
+# Binaries for programs and plugins
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Cache files
+.gocache
+.golangci-cache
+
+# Output of the go coverage tool
+*.out
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# Operating System Files
+.DS_Store
+thumbs.db
+
+# Code Editors Files
+.vscode
+.idea
+.cursor
+
+# Temporary Files
+*.tmp
+*.temp
+temp.*
+tmp.*
+*.temp.*
+tmp/
+
+# .env files
+.env
+.env.*
+!.env.example
